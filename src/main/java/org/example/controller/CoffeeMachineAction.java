@@ -2,9 +2,7 @@ package org.example.controller;
 
 import org.example.model.*;
 import org.example.view.CoffeeMachineView;
-
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class CoffeeMachineAction implements CoffeeMachineController {
 
@@ -23,25 +21,18 @@ public class CoffeeMachineAction implements CoffeeMachineController {
         int op = 1;
         while (op != 0) {
             if (count < 10) {
-                System.out.println(model.toString());
-                view.ShowMessage("Action: 1 - buy, 2 - fill, 3 - take, 0 - exit");
-                try {
-                    op = view.getUserInput();
-                } catch (InputMismatchException e) {
-                    view.ShowMessage("Invalid input. Enter a number\n");
-                    op = view.getUserInput();
-                    op = -1;
-                }
+
+                view.ShowMessage("Action: 1 - buy, 2 - fill, 3 - take, 4 - clean, 5 - remaining, 0 - exit: ");
+
+                op = view.getUserInput(view);
+
 
                 switch (op) {
                     case 1:
-                        view.ShowMessage("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino");
-                        try {
-                            op = view.getUserInput();
-                        } catch (InputMismatchException e) {
-                            view.ShowMessage("Invalid input. Enter a number\n");
+                        view.ShowMessage("What do you want to buy? 1 - cappuccino, 2 - latte, 3 - espresso: ");
 
-                        }
+                        op = view.getUserInput(view);
+
 
                         switch (op) {
                             case 1:
@@ -58,7 +49,6 @@ public class CoffeeMachineAction implements CoffeeMachineController {
                                 model.setWater(model.getWater() - latte.getWater());
                                 model.setMilk(model.getMilk() - latte.getMilk());
                                 model.setCoffeeBeans(model.getCoffeeBeans() - latte.getCoffeeBeans());
-                                model.setCups(model.getCups() - 1);
                                 model.setCash(model.getCash() + latte.getPrice());
                                 model.setCups(model.getCups() - 1);
                                 count++;
@@ -80,17 +70,25 @@ public class CoffeeMachineAction implements CoffeeMachineController {
                             MoneyWorker.CollectMoney(model);
                         break;
                     case 4:
-
+                            count = 0;
+                            view.ShowMessage("Coffee Machine has been cleaned!");
+                            break;
+                    case 5:
+                        view.ShowMessage(model.toString());
+                        break;
                     case 0:
                         break;
 
 
                 }
             } else {
-                System.out.println("Type clean to clean machine");
-                Scanner sc = new Scanner(System.in);
-                String input = sc.nextLine();
+                int cleanup = 0;
+                while(cleanup != 4) {
+                    view.ShowMessage("10 coffees made. Time to clean up. Press 4.");
+                    cleanup = view.getUserInput(view);
+                }
                 count = 0;
+                view.ShowMessage("Coffee Machine has been cleaned!");
             }
 
         }

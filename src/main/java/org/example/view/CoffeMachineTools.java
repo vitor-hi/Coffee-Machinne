@@ -1,5 +1,6 @@
 package org.example.view;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CoffeMachineTools implements CoffeeMachineView{
@@ -11,7 +12,15 @@ public class CoffeMachineTools implements CoffeeMachineView{
     }
 
     @Override
-    public int getUserInput() {
-        return sc.nextInt();
+    public int getUserInput(CoffeeMachineView view) {
+        while (true) {
+            try {
+                return sc.nextInt();
+            }catch (InputMismatchException e) {
+                view.ShowMessage("Invalid input. Enter a number: ");
+                sc.next();
+
+            }
+        }
     }
 }
